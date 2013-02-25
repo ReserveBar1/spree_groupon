@@ -1,0 +1,5 @@
+<% unless @order.groupon_code.blank? %>
+<div>
+This order has a Groupon-style promotion code applied. The groupon code is <%= @order.groupon_code.code -%>
+</div>
+<% end %>
