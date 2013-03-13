@@ -1,0 +1,66 @@
+<h1><%= t(:listing_groupon_codes) %></h1>
+
+
+<table class="index" id="listing_groupon_codes">
+  <tr>
+	<th>Campaign</th>
+	<th>Code</th>
+    <th>Order Number</th>
+    <th>User</th>
+	<th>Order Date</th>
+	<th>Ship-to State</th>
+  </tr>
+
+<% @groupon_codes.each do |groupon_code| %>
+  <tr>
+  	<td><%= groupon_code.campaign %></td>
+  	<td><%= groupon_code.code %></td>
+	<% if groupon_code.used_at %>
+    	<td><%= link_to groupon_code.order.number, [:admin, groupon_code.order] %></td>
+		<td><%= groupon_code.order.user.email %></td>
+    	<td><%= groupon_code.used_at %></td>
+		<td><%= groupon_code.order.ship_address.state.abbr %></td>
+	<% else %>
+		<td></td>
+		<td></td>
+		<td></td>	
+		<td></td>
+	<% end %>
+  </tr>
+<% end %>
+</table>
+
+<%= paginate @groupon_codes %>
+
+<% content_for :sidebar do %>
+
+<div class="box" data-hook="admin_groupon_codes_index_search">
+  <h3><%= t(:search) %></h3>
+  <%= form_for [:admin, @search] do |f| %>
+    <%= label_tag nil, t(:date_range) %><br />
+    <div class="date-range-filter">
+      <div class="left sub-field">
+        <%= f.text_field :used_at, :class => 'datepicker' %><br />
+        <%= label_tag nil, t(:start), :class => 'sub' %>
+      </div>
+      <div class="right sub-field">
+        <%= f.text_field :used_at, :class => 'datepicker' %><br />
+        <%= label_tag nil, t(:stop), :class => 'sub' %>
+      </div>
+    </div>
+
+    <p>
+      <%= label_tag nil, t(:campaign) %><br />
+      <%= f.text_field :campaign_like, :size => 25 %>
+    </p>
+    <p>
+      <%= f.check_box :used_at_is_not_null, {:checked => @show_only_used}, '1', '' %>
+      <%= label_tag nil, t(:used) %>
+    </p>
+    <div data-hook="admin_groupon_codes_index_search_buttons">
+      <p><%= button t(:search) %></p>
+    </div>
+  <% end %>
+</div>
+
+<% end %>
