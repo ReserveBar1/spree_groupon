@@ -1,0 +1,6 @@
+<% content_for :sub_menu do %>
+  <ul id="sub_nav" data-hook="admin_promotions_sub_tabs">
+    <%= tab :promotions, :match_path => '/promotions' %>
+    <%= tab :groupon_codes, :match_path => '/groupon_codes', :css_class => 'last' %>
+  </ul>
+<% end %>
