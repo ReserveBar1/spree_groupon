@@ -6,8 +6,7 @@ Spree::CheckoutController.class_eval do
     if @order.update_attributes(object_params)
 
       if @order.coupon_code.present?
-                
-        
+                    
         # Code for regular promotions
         if (Spree::Promotion.exists?(:code => @order.coupon_code))
           if (Spree::Promotion.where(:code => @order.coupon_code).last.eligible?(@order) && Spree::Promotion.where(:code => @order.coupon_code).last.order_activatable?(@order))
@@ -33,7 +32,8 @@ Spree::CheckoutController.class_eval do
         elsif  Spree::GrouponCode.exists?(:code => @order.coupon_code)
           groupon_code = Spree::GrouponCode.where(:code => @order.coupon_code).first
           promotion = groupon_code.promotion
-          if (promotion.eligible?(@order) && promotion.order_activatable?(@order))
+          if (groupon_code.used_at == nil && promotion.eligible?(@order) && promotion.order_activatable?(@order))
+          #if (promotion.eligible?(@order) && promotion.order_activatable?(@order))
             fire_event('spree.checkout.groupon_code_added', :coupon_code => @order.coupon_code)
             # If it is not valid or has already been used raise an error!
             @message = "Coupon applied"
