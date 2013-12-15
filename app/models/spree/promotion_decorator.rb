@@ -1,6 +1,6 @@
 Spree::Promotion.class_eval do
   
-  # New event type for groupon type codes - allows use to differentiate later on
+  # New event type for groupon type codes - allows us to differentiate later on
   Spree::Activator.event_names << 'spree.checkout.groupon_code_added'
 
   has_many :groupon_codes, :foreign_key => 'activator_id', :dependent => :destroy
@@ -28,6 +28,8 @@ Spree::Promotion.class_eval do
     # Groupon style promo - check if order.coupon_code is associated with this promotion and has not already been used.
     if payload[:event_name] == 'spree.checkout.groupon_code_added'
       return unless groupon_codes.unused.where(:code => payload[:coupon_code])
+      # There may be more than one groupon campaign active at any one time, and there mau be more than one activator selected, so guard against that
+      return unless id == payload[:promotion_id]
     end
 
     actions.each do |action|
