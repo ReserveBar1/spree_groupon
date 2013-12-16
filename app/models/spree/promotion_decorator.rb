@@ -29,9 +29,9 @@ Spree::Promotion.class_eval do
     if payload[:event_name] == 'spree.checkout.groupon_code_added'
       return unless groupon_codes.unused.where(:code => payload[:coupon_code])
       # There may be more than one groupon campaign active at any one time, and there mau be more than one activator selected, so guard against that
-      return unless id == payload[:promotion_id]
+      return unless self.id == payload[:promotion_id].to_i
     end
-
+Rails.logger.warn("++++++++ #{self.id}, #{payload[:promotion_id]}, #{self.id == payload[:promotion_id].to_i}")
     actions.each do |action|
       action.perform(payload)
     end

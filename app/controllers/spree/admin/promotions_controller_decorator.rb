@@ -48,7 +48,7 @@ Spree::Admin::PromotionsController.class_eval do
         store_groupon_codes
       else
         # update campaign name if changed, but no new coupons file submittted
-        @promotion.groupon_codes.update_all(:campaign, @groupon_campaign)
+        @promotion.groupon_codes.update_all(:campaign => @groupon_campaign)
       end
     end
   end
