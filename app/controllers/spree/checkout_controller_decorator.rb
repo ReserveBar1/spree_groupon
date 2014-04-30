@@ -43,8 +43,8 @@ Spree::CheckoutController.class_eval do
               @message = "This coupon has already been used on another order."
             elsif promotion.usage_limit_exceeded?(@order)
               @message = "The coupon cannot be applied, it's usage limit has been exceeded."
-            elsif promotion.created_at.to_i > @order.created_at.to_i
-              @message = "The coupon cannot be applied because it has been created after the order."
+            # elsif promotion.created_at.to_i > @order.created_at.to_i
+            #   @message = "The coupon cannot be applied because it has been created after the order."
             else
               @message = "The coupon cannot be applied to this order."
             end

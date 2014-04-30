@@ -7,7 +7,11 @@ Spree::Promotion.class_eval do
   attr_accessor :groupon_campaign
   attr_accessor :groupon_codes_file
 
-  
+  def order_activatable?(order)
+    order &&
+    # created_at.to_i < order.created_at.to_i &&
+    !UNACTIVATABLE_ORDER_STATES.include?(order.state)
+  end
   
   # Override the activate function (called after fire_event) so it handles the case where a groupon style promo i done
   # The coupon_code is stored in the same spot in the order as a regular promo code, we just determine which event to fire
@@ -47,12 +51,8 @@ Rails.logger.warn("++++++++ #{self.id}, #{payload[:promotion_id]}, #{self.id == 
     end
   end
   
-  
-  def is_groupon_style?
+    def is_groupon_style?
     self.event_name == 'spree.checkout.groupon_code_added'
   end
-  
-  
-  
-  
+ 
 end
