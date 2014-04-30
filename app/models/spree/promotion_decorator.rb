@@ -40,7 +40,7 @@ Rails.logger.warn("++++++++ #{self.id}, #{payload[:promotion_id]}, #{self.id == 
     if payload[:event_name] == 'spree.checkout.groupon_code_added'
       begin
         groupon_code = Spree::GrouponCode.where(:code => payload[:coupon_code]).first
-        groupon_code.update_attributes(:used_at => Time.now, :order_id => payload[:order].id)
+        groupon_code.update_attributes(:order_id => payload[:order].id)
       rescue
         raise "Can't update groupon code - please check"
       end
