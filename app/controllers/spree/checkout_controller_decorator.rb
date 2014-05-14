@@ -35,7 +35,7 @@ Spree::CheckoutController.class_eval do
           if (groupon_code.used_at == nil && promotion.eligible?(@order) && promotion.order_activatable?(@order))
             fire_event('spree.checkout.groupon_code_added', :coupon_code => @order.coupon_code, :promotion_id => promotion.id)
             # If it is not valid or has already been used raise an error!
-            @message = "Groupon code applied"
+            @message = "Promo code applied"
           else
             if promotion.expired?
               @message = "The coupon is expired or not yet active."
