@@ -1,4 +1,5 @@
 Spree::Promotion.class_eval do
+  UNACTIVATABLE_ORDER_STATES = ["complete", "awaiting_return", "returned"]
   
   # New event type for groupon type codes - allows us to differentiate later on
   Spree::Activator.event_names << 'spree.checkout.groupon_code_added'
